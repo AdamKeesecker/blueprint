@@ -7,6 +7,12 @@ class Room{
     this.end = {x:obj.endX*1, y:obj.endY*1};
     this.floorId = Mongo.ObjectID(obj.floorId);
   }
+
+  area(){
+    var x = this.end.x - this.begin.x;
+    var y = this.end.y - this.begin.y;
+    return x * y;
+  }
 }
 
 module.exports = Room;

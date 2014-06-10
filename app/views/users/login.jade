@@ -1,0 +1,14 @@
+extends ../shared/template
+
+block content
+  h1 trolololol
+
+  form(action='/login', method='POST')
+    input(type='text', name='email', placeholder='Email')
+    input(type='password', name='password', placeholder='Password')
+    button
+
+  form(action='/users', method='POST')
+    input(type='text', name='email', placeholder='Email')
+    input(type='password', name='password', placeholder='Password')
+    button

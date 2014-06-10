@@ -1,8 +1,10 @@
 var buildingCollection = global.nss.db.collection('buildings');
 var traceur = require('traceur');
+var Location = traceur.require(__dirname + '/location.js');
 var Base = traceur.require(__dirname + '/base.js');
 var Room = traceur.require(__dirname + '/room.js');
 var Mongo = require('mongodb');
+var _ = require('lodash');
 
 class Building{
   static create(obj, fn){
@@ -29,6 +31,25 @@ class Building{
     var room = new Room(obj);
     this.rooms.push(room);
     buildingCollection.update({_id:this._id}, {$push:{rooms:room}}, ()=>fn(this));
+  }
+
+  cost(fn){
+    var sqFt = this.x * this.y;
+    var locationCost;
+    var flooringCost = 0;
+    console.log(this.locationId);
+    Location.findById(this.locationId, location=>{
+      locationCost = sqFt * location.rate;
+      if(this.rooms.length > 0){
+        this.rooms = this.rooms.map(r=>_.create(Room.prototype, r));
+        this.rooms.forEach(r=>{
+          flooringCost += r.area() * sqFt;
+        });
+        fn(locationCost + flooringCost);
+      }else{
+        fn(locationCost);
+      }
+    });
   }
 }
 

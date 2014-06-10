@@ -1,0 +1,15 @@
+extends ../shared/template
+
+block content
+  if user
+    h1= user.email
+
+
+  form(action='/buildings', method='POST')
+    input(type='text', name='name', placeholder='Name')
+    input(type='text', name='x', placeholder='X dimension')
+    input(type='text', name='y', placeholder='Y dimension')
+    select(name='locationId')
+      each location in locations
+        option(value= '#{location._id}' )= location.name
+    button Submit

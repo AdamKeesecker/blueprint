@@ -1,0 +1,22 @@
+extends ../shared/template
+
+block content
+  if user
+    h3= user.email
+
+  h5= building.name
+  h5 $#{cost}
+
+  select(name='floor')
+    each floor in floors
+      option(data-img=floor.photo, value=floor._id)= floor.name
+  button#createRoom GOGOGOGO
+
+  table
+    - for(var y=0; y<building.y; y++)
+      tr
+        - for(var x=0; x<building.x; x++)
+          td.cell(data-x='#{x}', data-y='#{y}', style='background-color:coral; width:5px; height:5px')
+
+block scripts
+  script(src='/js/es6/compiled/building-show.js')
